@@ -1,12 +1,16 @@
 <header class="">
+    <div class="container">
     <h1>Gossipmongo</h1>
-    <nav class="button-group navbar bg-dark">
-        <a href="/"><button class="btn">Home</button></a>
-        <button class="button-dark" id="scrape" data-toggle="modal" data-target="#scrapeModal">Scrape New Articles</button>
+        <p>Scraping the latest Hollywood gossip from the infamous LaineyGossip website.</p>
+
+    <nav class="button-group navbar d-flex justify-content-start">
+        <a href="/"><button class="btn p-2 mr-2">Home</button></a>
+        <button class="btn p-2 mr-2" id="scrape" data-toggle="modal" data-target="#scrapeModal">Scrape New Articles</button>
         <a href="/saved">
-            <button class="button-dark" id="saved">View Saved Articles</button>
+            <button class="btn p-2" id="saved">View Saved Articles</button>
         </a>
     </nav>
+    </div>
 </header>
 <div class="container">
 {{!--     <div class="col-md-12 jumbotron">
@@ -19,15 +23,18 @@
             {{#each articles}}
             {{#unless saved}}
             <div class="card">
+                <div class="card-body">
                 <div class="card-title">
-                    <h4><a href="{{this.link}}">{{this.title}}</a></h4>
+                    <h4><a href="http://www.laineygossip.com{{this.link}}">{{this.title}}</a></h4>
                 </div>
                 <div class="card-text">
-                    <p> {{this.summary}}</p>
-                    <a href={{this.link}} target="_blank">{{this.link}}</a>
-                    <br><br>
-                    <button type="button" class="btn btn-success save-article" data-id={{this._id}}>Save Article</button>
+                    <p> {{this.summary}}</p>                    
                 </div>
+                
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-success save-article mr-1" data-id={{this._id}}>Save Article</button>
+                    <a href="http://www.laineygossip.com{{this.link}}" target="_blank"><button type="button" class="btn btn-primary">Full Article</button></a></div>
             </div>
             {{/unless}}
             {{/each}}
