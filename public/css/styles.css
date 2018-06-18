@@ -27,7 +27,8 @@ h4 {
 
 .card-title h4,
 .modal-header h4,
-.modal-body h2 {
+.modal-body h2,
+.card-text h4 {
     color: rgba(0, 0, 0, .7);
     font-size: 1em;
 }
