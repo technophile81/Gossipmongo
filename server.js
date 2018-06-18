@@ -1,6 +1,6 @@
 var express = require("express");
 var exphbs = require("express-handlebars");
-
+var morgan = require("morgan");
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 
@@ -21,7 +21,7 @@ var app = express();
 // Configure middleware
 
 // Use morgan logger for logging requests
-app.use(logger("dev"));
+//app.use(logger("dev"));
 // Use body-parser for handling form submissions
 app.use(bodyParser.urlencoded({ extended: true }));
 // Use express.static to serve the public folder as a static directory
@@ -31,19 +31,19 @@ app.use(express.static("public"));
 mongoose.connect("mongodb://localhost/gossipmongo");
 
 // Handlebars config 
+var hbs = exphbs.create({ defaultLayout: "main" });
+
 app.engine("handlebars", hbs.engine);
 
 app.set("view engine", "handlebars");
 
-var hbs = exphbs.create({ defaultLayout: "main" });
-
 // Routes
 
 // A GET route for scraping LaineyGossip's website
-
-require("./routes/articles-route.js")(app);
-require("./routes/notes-route.js")(app);
-require("./routes/scraper-route.js")(app);
+app.use(require("./routes/html-routes.js"));
+app.use(require("./routes/articles-route.js"));
+app.use(require("./routes/notes-route.js"));
+app.use(require("./routes/scraper-route.js"));
 
 // Start the server
 app.listen(PORT, function() {

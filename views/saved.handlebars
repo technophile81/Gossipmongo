@@ -1,0 +1,70 @@
+<header class="">
+    <h1>Gossipmongo</h1>
+    <nav class="button-group navbar bg-dark">
+        <a href="/"><button class="btn">Home</button></a>
+
+        <a href="/saved">
+            <button class="button-dark" id="saved">View Saved Articles</button>
+        </a>
+    </nav>
+</header>
+
+<div class="container">
+    <div class="col-md-12 jumbotron">
+        <div class="text-center">
+            <h1>Saved Articles</h1>
+        </div>
+    </div>
+    <div class="col-md-12">
+        {{#if articles}} {{#each articles}} {{#if saved}}
+        <div class="card">
+            <div class="card-title">
+                <h4>{{this.title}}</h4>
+            </div>
+            <div class="card-text">
+                <p> {{this.summary}}</p>
+                <a href={{this.link}} target="_blank">{{this.link}}</a>
+                <br>
+                <br>
+                <button type="button" class="btn btn-success add-note" data-toggle="modal" data-target="#notemodal{{this._id}}" data-id="{{this._id}}">Add a Note</button>
+                <button type="button" class="btn btn-danger delete-article" data-id="{{this._id}}">Delete</button>
+            </div>
+        </div>
+        {{/if}} {{/each}} {{else}}
+        <div class="card">
+            <div class="card-text">
+                <h4>You have no saved articles.</h4>
+            </div>
+        </div>
+        {{/if}}
+    </div>
+</div>
+
+<!--Modals-->
+{{#each articles}}
+<div class="modal fade modalNote" id="notemodal{{this._id}}" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Notes for {{this.title}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-body" id="note-view{{this._id}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <textarea id="note-text{{this._id}}" class="form-control" rows="4" placeholder="New Note"></textarea>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary save-note" data-id="{{this._id}}">Save Note</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{/each}}
