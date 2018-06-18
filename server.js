@@ -27,8 +27,24 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Use express.static to serve the public folder as a static directory
 app.use(express.static("public"));
 
-// Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/gossipmongo");
+// Configure Mongoose
+
+var databaseUri = "mongodb://localhost/gossipmongo";
+
+if (process.env.MONGODB_URI) {
+  mongoose.connect(process.env.MONGODB_URI);
+} else {
+  mongoose.connect(databaseUri);
+};
+
+var db = mongoose.connection;
+
+db.on("error", function (err) {
+  console.log("Mongoose Error", err);
+})
+db.once("open", function () {
+  console.log("Mongoose connection successful");
+})
 
 // Handlebars config 
 var hbs = exphbs.create({ defaultLayout: "main" });
@@ -46,7 +62,6 @@ app.use(require("./routes/notes-route.js"));
 app.use(require("./routes/scraper-route.js"));
 
 // Start the server
-app.listen(PORT, function() {
-    console.log("App running on port " + PORT + "!");
-  });
-  
+app.listen(PORT, function () {
+  console.log("App running on port " + PORT + "!");
+});
